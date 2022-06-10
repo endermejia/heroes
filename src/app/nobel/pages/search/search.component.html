@@ -1,1 +1,95 @@
-<p>search works!</p>
+<!-- Start Search form -->
+<mat-card
+  id="mat-card-search"
+  class="mat-elevation-z8 margin-1em">
+  <mat-card-header>
+    <mat-card-title class="custom-title">
+      {{labels.title}}
+    </mat-card-title>
+  </mat-card-header>
+  <form
+    [formGroup]="formGroup"
+    (ngSubmit)="search()">
+    <div class="custom-container">
+      <div>
+        <mat-form-field class="margin-1em">
+          <mat-label>{{labels.categories}}</mat-label>
+          <mat-select
+            [formControlName]="'category'">
+            <mat-option
+              *ngFor="let category of categories"
+              [value]="category.id">
+              {{category.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="margin-1em">
+          <mat-label>{{labels.nobelPrizeYear}}</mat-label>
+          <input matInput [matDatepicker]="dp1" [formControlName]="'nobelPrizeYear'">
+          <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+          <mat-datepicker #dp1
+                          startView="multi-year">
+          </mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="margin-1em">
+          <mat-label>{{labels.yearTo}}</mat-label>
+          <input matInput [matDatepicker]="dp2" [formControlName]="'yearTo'">
+          <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+          <mat-datepicker #dp2
+                          startView="multi-year">
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary">
+        {{labels.search}}
+      </button>
+    </div>
+  </form>
+</mat-card>
+<!-- End Search form-->
+<!-- Start nobelPrizes results table -->
+<div *ngIf="nobelPrizesData && nobelPrizesData.nobelPrizes && nobelPrizesData.nobelPrizes.length > 0"
+     class="margin-1em">
+  <table mat-table [dataSource]="nobelPrizesData.nobelPrizes" class="mat-elevation-z8 width-100">
+    <!-- dateAwardedColumn -->
+    <ng-container matColumnDef="{{this.labels.table.dateAwarded}}">
+      <th mat-header-cell *matHeaderCellDef>
+        {{labels.table.dateAwarded}}
+      </th>
+      <td mat-cell *matCellDef="let nobelPrizeElement">
+        {{nobelPrizeElement['awardYear']}}
+      </td>
+    </ng-container>
+    <!-- laureates -->
+    <ng-container matColumnDef="{{this.labels.table.laureates}}">
+      <th mat-header-cell *matHeaderCellDef>
+        {{labels.table.laureates}}
+      </th>
+      <td mat-cell *matCellDef="let nobelPrizeElement">
+        {{getLaureates(nobelPrizeElement)}}
+      </td>
+    </ng-container>
+    <!-- actions -->
+    <ng-container matColumnDef="{{this.labels.table.actions}}">
+      <th mat-header-cell *matHeaderCellDef>
+        {{labels.table.actions}}
+      </th>
+      <td mat-cell *matCellDef="let nobelPrizeElement">
+        <mat-icon color="primary">visibility</mat-icon>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+<!-- End nobelPrizes results table -->
+<!-- Start Spinner -->
+<ng-container *ngIf="showSpinner">
+  <div class="spinnerContainer">
+    <mat-spinner class="custom-mat-spinner"></mat-spinner>
+  </div>
+</ng-container>
+<!-- End Spinner -->
