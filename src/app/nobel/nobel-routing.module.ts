@@ -14,7 +14,7 @@ const routes: Routes = [
         component: SearchComponent
       },
       {
-        path: 'galardon',
+        path: 'galardon/:awardYear',
         component: GalardonComponent
       },
       {
@@ -24,7 +24,6 @@ const routes: Routes = [
     ]
   }
 ];
-
 
 @NgModule({
   declarations: [],

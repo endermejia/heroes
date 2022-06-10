@@ -53,9 +53,9 @@
 </mat-card>
 <!-- End Search form-->
 <!-- Start nobelPrizes results table -->
-<div *ngIf="nobelPrizesData && nobelPrizesData.nobelPrizes && nobelPrizesData.nobelPrizes.length > 0"
+<div *ngIf="nobelService.nobelPrizesData && nobelService.nobelPrizesData.nobelPrizes && nobelService.nobelPrizesData.nobelPrizes.length > 0"
      class="margin-1em">
-  <table mat-table [dataSource]="nobelPrizesData.nobelPrizes" class="mat-elevation-z8 width-100">
+  <table mat-table [dataSource]="nobelService.nobelPrizesData.nobelPrizes" class="mat-elevation-z8 width-100">
     <!-- dateAwardedColumn -->
     <ng-container matColumnDef="{{this.labels.table.dateAwarded}}">
       <th mat-header-cell *matHeaderCellDef>
@@ -79,7 +79,9 @@
       <th mat-header-cell *matHeaderCellDef>
         {{labels.table.actions}}
       </th>
-      <td mat-cell *matCellDef="let nobelPrizeElement">
+      <td
+        mat-cell *matCellDef="let nobelPrizeElement"
+        [routerLink]="getCategoryAndYear(nobelPrizeElement)">
         <mat-icon color="primary">visibility</mat-icon>
       </td>
     </ng-container>
@@ -89,7 +91,7 @@
 </div>
 <!-- End nobelPrizes results table -->
 <!-- Start Spinner -->
-<ng-container *ngIf="showSpinner">
+<ng-container *ngIf="nobelService.showSpinner">
   <div class="spinnerContainer">
     <mat-spinner class="custom-mat-spinner"></mat-spinner>
   </div>
