@@ -28,6 +28,7 @@
           <input matInput [matDatepicker]="dp1" [formControlName]="'nobelPrizeYear'">
           <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
           <mat-datepicker #dp1
+                          (yearSelected)="setYear($event, dp1, 'nobelPrizeYear')"
                           startView="multi-year">
           </mat-datepicker>
         </mat-form-field>
@@ -36,6 +37,7 @@
           <input matInput [matDatepicker]="dp2" [formControlName]="'yearTo'">
           <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
           <mat-datepicker #dp2
+                          (yearSelected)="setYear($event, dp2, 'yearTo')"
                           startView="multi-year">
           </mat-datepicker>
         </mat-form-field>
