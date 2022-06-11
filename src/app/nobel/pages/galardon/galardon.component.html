@@ -1,1 +1,55 @@
-<p>galardon works!</p>
+<ng-container *ngIf="nobelService.nobelPrize && nobelService.nobelPrize.length">
+  <ng-container *ngIf="nobelService.nobelPrize[0].laureates">
+
+    <mat-grid-list
+      class="margin-1em"
+      cols="2"
+      rowHeight="2:1">
+      <ng-container *ngFor="let laureate of nobelService.nobelPrize[0].laureates">
+        <div class="margin-1em">
+          <mat-grid-tile>
+            <mat-card>
+              <mat-card-content>
+                <div class="custom-flex-container">
+                  <label class="custom-title">
+                    <b>{{labels.name}}:</b>
+                  </label>
+                  <label>
+                    Laureates
+                  </label>
+                </div>
+                <div class="custom-flex-container">
+                  <label class="custom-title">
+                    <b>{{labels.contribution}}:</b>
+                  </label>
+                  <label>
+                    Contribution
+                  </label>
+                </div>
+                <div class="custom-flex-container">
+                  <label class="custom-title">
+                    <b>{{labels.motive}}:</b>
+                  </label>
+                  <label>
+                    Motive
+                  </label>
+                </div>
+              </mat-card-content>
+              <hr>
+              {{laureate | json}}
+              <hr>
+            </mat-card>
+          </mat-grid-tile>
+        </div>
+      </ng-container>
+    </mat-grid-list>
+  </ng-container>
+</ng-container>
+
+<!-- Start Spinner -->
+<ng-container *ngIf="nobelService.showSpinner">
+  <div class="spinnerContainer">
+    <mat-spinner class="custom-mat-spinner"></mat-spinner>
+  </div>
+</ng-container>
+<!-- End Spinner -->

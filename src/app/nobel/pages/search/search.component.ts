@@ -1,16 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CategoryModel, LabelsModel, NobelPrizeModel, NobelPrizesDataModel} from '../../models/nobel.model';
+import {CategoryModel, SearchLabelsModel, NobelPrizeModel} from '../../models/nobel.model';
 import {NobelService} from '../../services/nobel.service';
+import {MatDatepicker} from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
+
 export class SearchComponent implements OnInit {
 
-  public labels: LabelsModel = {
+  public labels: SearchLabelsModel = {
     title: 'Buscador datos Premio Nobel',
     search: 'Buscar',
     categories: 'Categorías',
@@ -33,10 +35,6 @@ export class SearchComponent implements OnInit {
     {id: 'med', value: 'Medicina'},
   ];
 
-  public showSpinner: boolean = false;
-
-  public nobelPrizesData: NobelPrizesDataModel | null = null;
-
   public displayedColumns: string[] = [
     this.labels.table.dateAwarded,
     this.labels.table.laureates,
@@ -50,8 +48,8 @@ export class SearchComponent implements OnInit {
   });
 
   constructor(
-    private formBuilder: FormBuilder,
-    private nobelService: NobelService
+    public nobelService: NobelService,
+    private formBuilder: FormBuilder
   ) {
   }
 
@@ -59,30 +57,25 @@ export class SearchComponent implements OnInit {
   }
 
   public search(): void {
-    // if (this.formGroup.valid) {
-    if (true) {
+    if (this.formGroup.valid) {
       console.log(this.formGroup.value);
-      this.showSpinner = true;
-      this.nobelService.getNobelPrizeByCategoryAndYear(
+      this.nobelService.showSpinner = true;
+      this.nobelService.searchNobelPrizesByCategoryAndYears(
         this.formGroup.value.category,
         this.formGroup.value.nobelPrizeYear.getFullYear(),
         this.formGroup.value.yearTo.getFullYear()
-      ).subscribe(
-        (data: Object) => {
-          this.nobelPrizesData = data as NobelPrizesDataModel;
-          // TODO: Delete. Timeout for show spinner.
-          setTimeout(() => {
-            this.showSpinner = false;
-          }, 1000);
-        }
       );
     }
   }
 
-  public getLaureates(nobelPrize: NobelPrizeModel): string {
-    return nobelPrize?.laureates?.length > 0
-      ? nobelPrize.laureates.map(laureate => laureate.knownName?.en || laureate.orgName?.en).join(', ')
-      : nobelPrize.topMotivation?.en.split('.')[0] || '-';
+  public getCategoryAndYear(nobelPrize: NobelPrizeModel): string {
+    return `galardon/${nobelPrize.category.en}-${nobelPrize.awardYear}`;
+  }
+
+  // TODO: Only year in calendar.
+  setYear(eventDate: Date, datePicker: MatDatepicker<any>, formGroupName: string): void {
+    this.formGroup.get(formGroupName)?.setValue(eventDate);
+    datePicker.close();
   }
 
 }

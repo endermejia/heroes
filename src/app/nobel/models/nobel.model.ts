@@ -3,13 +3,20 @@ export interface CategoryModel {
   value: string;
 }
 
-export interface LabelsModel {
+export interface SearchLabelsModel {
   title: string;
   search: string;
   categories: string;
   nobelPrizeYear: string;
   yearTo: string;
   table: TableModel;
+}
+
+export interface GalardonLabelsModel {
+  name: string;
+  contribution: string;
+  motive: string;
+  return: string;
 }
 
 export interface TableModel {
