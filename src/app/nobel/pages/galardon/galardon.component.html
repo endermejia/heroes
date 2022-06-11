@@ -1,51 +1,57 @@
-<ng-container *ngIf="nobelService.nobelPrize && nobelService.nobelPrize.length">
-  <ng-container *ngIf="nobelService.nobelPrize[0].laureates">
-
-    <mat-grid-list
-      class="margin-1em"
-      cols="2"
-      rowHeight="2:1">
-      <ng-container *ngFor="let laureate of nobelService.nobelPrize[0].laureates">
-        <div class="margin-1em">
-          <mat-grid-tile>
-            <mat-card>
-              <mat-card-content>
-                <div class="custom-flex-container">
-                  <label class="custom-title">
-                    <b>{{labels.name}}:</b>
-                  </label>
-                  <label>
-                    Laureates
-                  </label>
+<div id="galardon-container">
+  <ng-container *ngIf="nobelService.nobelPrize && nobelService.nobelPrize.length">
+    <ng-container *ngIf="nobelService.nobelPrize[0].laureates">
+      <div class="margin-1em">
+        <mat-grid-list
+          cols="2"
+          rowHeight="2:1">
+          <ng-container *ngFor="let laureate of nobelService.nobelPrize[0].laureates">
+            <div>
+              <mat-grid-tile>
+                <div class="padding-1em">
+                  <mat-card class="mat-elevation-z8">
+                    <mat-card-content>
+                      <div class="custom-flex-container">
+                        <label class="custom-title margin-1em">
+                          <b>{{labels.name}}:</b>
+                        </label>
+                        <label class="margin-1em">
+                          {{getLaureateNames(laureate)}}
+                        </label>
+                      </div>
+                      <div class="custom-flex-container">
+                        <label class="custom-title margin-1em">
+                          <b>{{labels.contribution}}:</b>
+                        </label>
+                        <label class="margin-1em">
+                          {{getLaureateContribution(laureate)}}
+                        </label>
+                      </div>
+                      <div class="custom-flex-container">
+                        <label class="custom-title margin-1em">
+                          <b>{{labels.motive}}:</b>
+                        </label>
+                        <label class="margin-1em">
+                          {{getLaureateMotive(laureate) | uppercase}}
+                        </label>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
                 </div>
-                <div class="custom-flex-container">
-                  <label class="custom-title">
-                    <b>{{labels.contribution}}:</b>
-                  </label>
-                  <label>
-                    Contribution
-                  </label>
-                </div>
-                <div class="custom-flex-container">
-                  <label class="custom-title">
-                    <b>{{labels.motive}}:</b>
-                  </label>
-                  <label>
-                    Motive
-                  </label>
-                </div>
-              </mat-card-content>
-              <hr>
-              {{laureate | json}}
-              <hr>
-            </mat-card>
-          </mat-grid-tile>
-        </div>
-      </ng-container>
-    </mat-grid-list>
+              </mat-grid-tile>
+            </div>
+          </ng-container>
+        </mat-grid-list>
+      </div>
+    </ng-container>
   </ng-container>
-</ng-container>
-
+  <button
+    routerLink=""
+    mat-raised-button
+    type="submit">
+    {{labels.return}}
+  </button>
+</div>
 <!-- Start Spinner -->
 <ng-container *ngIf="nobelService.showSpinner">
   <div class="spinnerContainer">
