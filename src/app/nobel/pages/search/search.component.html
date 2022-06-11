@@ -22,6 +22,7 @@
               {{category.value}}
             </mat-option>
           </mat-select>
+          <mat-error>{{labels.validation.required}}</mat-error>
         </mat-form-field>
         <mat-form-field class="margin-1em">
           <mat-label>{{labels.nobelPrizeYear}}</mat-label>
@@ -31,6 +32,7 @@
                           (yearSelected)="setYear($event, dp1, 'nobelPrizeYear')"
                           startView="multi-year">
           </mat-datepicker>
+          <mat-error>{{labels.validation.required}}</mat-error>
         </mat-form-field>
         <mat-form-field class="margin-1em">
           <mat-label>{{labels.yearTo}}</mat-label>
@@ -40,8 +42,17 @@
                           (yearSelected)="setYear($event, dp2, 'yearTo')"
                           startView="multi-year">
           </mat-datepicker>
+          <mat-error>{{labels.validation.required}}</mat-error>
         </mat-form-field>
       </div>
+      <mat-error *ngIf="yearToSuperiorThanYearFrom"
+                 class="margin-1em">
+        {{yearToSuperiorThanYearFromError}}
+      </mat-error>
+      <mat-error *ngIf="maxRangeOfYears"
+                 class="margin-1em">
+        {{labels.validation.maxRangeOfYears}}
+      </mat-error>
       <button
         mat-raised-button
         type="submit"
@@ -53,8 +64,9 @@
 </mat-card>
 <!-- End Search form-->
 <!-- Start nobelPrizes results table -->
-<div *ngIf="nobelService.nobelPrizesData && nobelService.nobelPrizesData.nobelPrizes && nobelService.nobelPrizesData.nobelPrizes.length > 0"
-     class="margin-1em">
+<div
+  *ngIf="nobelService.nobelPrizesData && nobelService.nobelPrizesData.nobelPrizes && nobelService.nobelPrizesData.nobelPrizes.length > 0"
+  class="margin-1em">
   <table mat-table [dataSource]="nobelService.nobelPrizesData.nobelPrizes" class="mat-elevation-z8 width-100">
     <!-- dateAwardedColumn -->
     <ng-container matColumnDef="{{this.labels.table.dateAwarded}}">

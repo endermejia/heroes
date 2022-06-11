@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CategoryModel, SearchLabelsModel, NobelPrizeModel} from '../../models/nobel.model';
 import {NobelService} from '../../services/nobel.service';
 import {MatDatepicker} from '@angular/material/datepicker';
+import {ValidatorsService} from "../../services/validators.service";
 
 @Component({
   selector: 'app-search',
@@ -22,6 +23,11 @@ export class SearchComponent implements OnInit {
       dateAwarded: 'Año',
       laureates: 'Galardonado/s',
       actions: 'Acciones'
+    },
+    validation: {
+      required: 'El campo es requerido',
+      maxRangeOfYears: 'El rango de años no puede ser superior a 15',
+      yearToSuperiorThanYearFrom: 'Año desde: nobelPrizeYear no puede ser mayor que año hasta: yearTo'
     }
   };
 
@@ -42,14 +48,24 @@ export class SearchComponent implements OnInit {
   ];
 
   public formGroup: FormGroup = this.formBuilder.group({
-    category: ['', [Validators.required]],
-    nobelPrizeYear: ['', [Validators.required]],
-    yearTo: ['', Validators.required]
+    category: [
+      '',
+      [Validators.required]
+    ],
+    nobelPrizeYear: [
+      '',
+      [Validators.required, this.validatorService.maxRangeOfYears, this.validatorService.yearToSuperiorThanYearFrom]
+    ],
+    yearTo: [
+      '',
+      [Validators.required, this.validatorService.maxRangeOfYears, this.validatorService.yearToSuperiorThanYearFrom]
+    ]
   });
 
   constructor(
     public nobelService: NobelService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private validatorService: ValidatorsService
   ) {
   }
 
@@ -73,9 +89,29 @@ export class SearchComponent implements OnInit {
   }
 
   // TODO: Only year in calendar.
-  setYear(eventDate: Date, datePicker: MatDatepicker<any>, formGroupName: string): void {
-    this.formGroup.get(formGroupName)?.setValue(eventDate);
+  public setYear(eventDate: Date, datePicker: MatDatepicker<any>, formGroupName: string): void {
+    this.formGroup?.get(formGroupName)?.setValue(eventDate);
     datePicker.close();
+  }
+
+  public get yearToSuperiorThanYearFrom(): boolean {
+    const yearFrom = this.formGroup?.get('nobelPrizeYear')?.value;
+    const yearTo = this.formGroup?.get('yearTo')?.value;
+    return yearFrom && yearTo && yearFrom.getFullYear() > yearTo.getFullYear();
+  }
+
+  public get maxRangeOfYears(): boolean {
+    const yearFrom = this.formGroup?.get('nobelPrizeYear')?.value;
+    const yearTo = this.formGroup?.get('yearTo')?.value;
+    return yearFrom && yearTo && (yearTo.getFullYear() - yearFrom.getFullYear()) > 15;
+  }
+
+  public get yearToSuperiorThanYearFromError(): string {
+    const yearFrom = this.formGroup?.get('nobelPrizeYear')?.value;
+    const yearTo = this.formGroup?.get('yearTo')?.value;
+    return this.labels.validation.yearToSuperiorThanYearFrom
+      .replace('nobelPrizeYear', yearFrom?.getFullYear().toString())
+      .replace('yearTo', yearTo?.getFullYear().toString());
   }
 
 }
