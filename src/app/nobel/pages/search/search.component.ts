@@ -47,9 +47,18 @@ export class SearchComponent implements OnInit {
   ];
 
   public formGroup: FormGroup = this.formBuilder.group({
-    category: ['', [Validators.required]],
-    nobelPrizeYear: ['', [Validators.required]],
-    yearTo: ['', Validators.required]
+    category: [
+      '',
+      [Validators.required]
+    ],
+    nobelPrizeYear: [
+      '',
+      [Validators.required, this.validatorMaxRangeOfYears, this.validatorYearToSuperiorThanYearFrom]
+    ],
+    yearTo: [
+      '',
+      [Validators.required, this.validatorMaxRangeOfYears, this.validatorYearToSuperiorThanYearFrom]
+    ]
   });
 
   constructor(
@@ -103,4 +112,23 @@ export class SearchComponent implements OnInit {
       .replace('yearTo', yearTo?.getFullYear().toString());
 
   }
+
+  public validatorYearToSuperiorThanYearFrom(control: FormControl): { [s: string]: boolean } | null {
+    const yearFrom = control.parent?.get('nobelPrizeYear')?.value;
+    const yearTo = control.parent?.get('yearTo')?.value;
+    if (yearFrom && yearTo && yearFrom.getFullYear() > yearTo.getFullYear()) {
+      return {yearToSuperiorThanYearFrom: true};
+    }
+    return null;
+  }
+
+  public validatorMaxRangeOfYears(control: FormControl): { [s: string]: boolean } | null {
+    const yearFrom = control.parent?.get('nobelPrizeYear')?.value;
+    const yearTo = control.parent?.get('yearTo')?.value;
+    if (yearFrom && yearTo && (yearTo.getFullYear() - yearFrom.getFullYear()) > 15) {
+      return {maxRangeOfYears: true};
+    }
+    return null;
+  }
+
 }
