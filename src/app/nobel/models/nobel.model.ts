@@ -10,6 +10,7 @@ export interface SearchLabelsModel {
   nobelPrizeYear: string;
   yearTo: string;
   table: TableModel;
+  validation: ValidationModel;
 }
 
 export interface GalardonLabelsModel {
@@ -25,6 +26,11 @@ export interface TableModel {
   actions: string;
 }
 
+export interface ValidationModel {
+  required: string;
+  maxRangeOfYears: string;
+  yearToSuperiorThanYearFrom: string;
+}
 export interface NobelPrizesDataModel {
   nobelPrizes: NobelPrizeModel[];
   meta: MetaModel;
