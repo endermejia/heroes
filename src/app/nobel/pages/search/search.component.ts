@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CategoryModel, LabelsModel, NobelPrizeModel} from '../../models/nobel.model';
+import {CategoryModel, SearchLabelsModel, NobelPrizeModel} from '../../models/nobel.model';
 import {NobelService} from '../../services/nobel.service';
 import {MatDatepicker} from '@angular/material/datepicker';
 
@@ -12,7 +12,7 @@ import {MatDatepicker} from '@angular/material/datepicker';
 
 export class SearchComponent implements OnInit {
 
-  public labels: LabelsModel = {
+  public labels: SearchLabelsModel = {
     title: 'Buscador datos Premio Nobel',
     search: 'Buscar',
     categories: 'Categorías',
@@ -66,12 +66,6 @@ export class SearchComponent implements OnInit {
         this.formGroup.value.yearTo.getFullYear()
       );
     }
-  }
-
-  public getLaureates(nobelPrize: NobelPrizeModel): string {
-    return nobelPrize?.laureates?.length > 0
-      ? nobelPrize.laureates.map(laureate => laureate.knownName?.en || laureate.orgName?.en).join(', ')
-      : nobelPrize.topMotivation?.en.split('.')[0] || '-';
   }
 
   public getCategoryAndYear(nobelPrize: NobelPrizeModel): string {

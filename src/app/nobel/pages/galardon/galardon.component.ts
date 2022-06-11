@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NobelService} from '../../services/nobel.service';
-import {NobelPrizeModel} from '../../models/nobel.model';
+import {GalardonLabelsModel} from '../../models/nobel.model';
 import {ActivatedRoute} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-galardon',
@@ -11,7 +10,12 @@ import {switchMap} from 'rxjs/operators';
 })
 export class GalardonComponent implements OnInit {
 
-  public nobelPrize: NobelPrizeModel = {} as NobelPrizeModel;
+  public labels: GalardonLabelsModel = {
+    name: 'Nombre',
+    contribution: 'Contribución',
+    motive: 'Motivo',
+    return: 'Volver'
+  }
 
   // Los ids de las categorías: ['che', 'eco', 'lit', 'pea', 'phy', 'med'].
   public categories: any = {
@@ -44,15 +48,7 @@ export class GalardonComponent implements OnInit {
 
   getNobelPrize(): void {
     this.nobelService.showSpinner = true;
-    this.activatedRoute.params
-      .pipe(
-        switchMap(({awardYear}) => this.nobelService
-          .getNobelPrizesByCategoryAndYear(this.getCategory(), this.getAwardYear()))
-      )
-      .subscribe(nobelPrize => {
-        this.nobelPrize = nobelPrize as NobelPrizeModel;
-        this.nobelService.showSpinner = false;
-      });
+    this.nobelService.searchNobelPrizeByCategoryAndYear(this.getCategory(), this.getAwardYear())
   }
 
 }

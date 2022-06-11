@@ -71,7 +71,7 @@
         {{labels.table.laureates}}
       </th>
       <td mat-cell *matCellDef="let nobelPrizeElement">
-        {{getLaureates(nobelPrizeElement)}}
+        {{nobelService.getLaureatesNames(nobelPrizeElement)}}
       </td>
     </ng-container>
     <!-- actions -->
