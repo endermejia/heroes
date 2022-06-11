@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CategoryModel, SearchLabelsModel, NobelPrizeModel} from '../../models/nobel.model';
 import {NobelService} from '../../services/nobel.service';
 import {MatDatepicker} from '@angular/material/datepicker';
+import {ValidatorsService} from "../../services/validators.service";
 
 @Component({
   selector: 'app-search',
@@ -53,17 +54,18 @@ export class SearchComponent implements OnInit {
     ],
     nobelPrizeYear: [
       '',
-      [Validators.required, this.validatorMaxRangeOfYears, this.validatorYearToSuperiorThanYearFrom]
+      [Validators.required, this.validatorService.maxRangeOfYears, this.validatorService.yearToSuperiorThanYearFrom]
     ],
     yearTo: [
       '',
-      [Validators.required, this.validatorMaxRangeOfYears, this.validatorYearToSuperiorThanYearFrom]
+      [Validators.required, this.validatorService.maxRangeOfYears, this.validatorService.yearToSuperiorThanYearFrom]
     ]
   });
 
   constructor(
     public nobelService: NobelService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private validatorService: ValidatorsService
   ) {
   }
 
@@ -110,25 +112,6 @@ export class SearchComponent implements OnInit {
     return this.labels.validation.yearToSuperiorThanYearFrom
       .replace('nobelPrizeYear', yearFrom?.getFullYear().toString())
       .replace('yearTo', yearTo?.getFullYear().toString());
-
-  }
-
-  public validatorYearToSuperiorThanYearFrom(control: FormControl): { [s: string]: boolean } | null {
-    const yearFrom = control.parent?.get('nobelPrizeYear')?.value;
-    const yearTo = control.parent?.get('yearTo')?.value;
-    if (yearFrom && yearTo && yearFrom.getFullYear() > yearTo.getFullYear()) {
-      return {yearToSuperiorThanYearFrom: true};
-    }
-    return null;
-  }
-
-  public validatorMaxRangeOfYears(control: FormControl): { [s: string]: boolean } | null {
-    const yearFrom = control.parent?.get('nobelPrizeYear')?.value;
-    const yearTo = control.parent?.get('yearTo')?.value;
-    if (yearFrom && yearTo && (yearTo.getFullYear() - yearFrom.getFullYear()) > 15) {
-      return {maxRangeOfYears: true};
-    }
-    return null;
   }
 
 }
