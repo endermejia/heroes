@@ -1,5 +1,5 @@
 {
-  "name": "nobel-app",
+  "name": "heroes",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
