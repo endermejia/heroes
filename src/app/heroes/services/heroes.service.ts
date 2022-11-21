@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {NobelPrizeModel, NobelPrizesDataModel} from '../models/nobel.model';
+import {NobelPrizeModel, NobelPrizesDataModel} from '../models/heroes.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NobelService {
+export class HeroesService {
 
   public nobelPrizesData: NobelPrizesDataModel | null = null;
   public nobelPrize: NobelPrizeModel[] = [];

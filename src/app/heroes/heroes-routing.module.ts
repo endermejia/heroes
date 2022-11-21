@@ -34,5 +34,5 @@ const routes: Routes = [
     RouterModule
   ]
 })
-export class NobelRoutingModule {
+export class HeroesRoutingModule {
 }

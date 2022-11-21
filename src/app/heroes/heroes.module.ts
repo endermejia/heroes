@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from '../material/material.module';
-import {NobelRoutingModule} from './nobel-routing.module';
+import {HeroesRoutingModule} from './heroes-routing.module';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import {GalardonComponent} from './pages/galardon/galardon.component';
@@ -19,10 +19,10 @@ import {SearchComponent} from './pages/search/search.component';
   imports: [
     CommonModule,
     MaterialModule,
-    NobelRoutingModule,
+    HeroesRoutingModule,
     ReactiveFormsModule,
     FormsModule
   ]
 })
-export class NobelModule {
+export class HeroesModule {
 }

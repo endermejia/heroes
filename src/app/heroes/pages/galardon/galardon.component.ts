@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {NobelService} from '../../services/nobel.service';
-import {GalardonLabelsModel, LaureateModel} from '../../models/nobel.model';
+import {HeroesService} from '../../services/heroes.service';
+import {GalardonLabelsModel, LaureateModel} from '../../models/heroes.model';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -29,7 +29,7 @@ export class GalardonComponent implements OnInit {
 
   constructor(
     public activatedRoute: ActivatedRoute,
-    public nobelService: NobelService
+    public nobelService: HeroesService
   ) {
   }
 

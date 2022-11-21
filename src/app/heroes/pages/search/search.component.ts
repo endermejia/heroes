@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CategoryModel, SearchLabelsModel, NobelPrizeModel} from '../../models/nobel.model';
-import {NobelService} from '../../services/nobel.service';
+import {CategoryModel, SearchLabelsModel, NobelPrizeModel} from '../../models/heroes.model';
+import {HeroesService} from '../../services/heroes.service';
 import {MatDatepicker} from '@angular/material/datepicker';
 import {ValidatorsService} from "../../services/validators.service";
 
@@ -14,7 +14,7 @@ import {ValidatorsService} from "../../services/validators.service";
 export class SearchComponent implements OnInit {
 
   public labels: SearchLabelsModel = {
-    title: 'Buscador datos Premio Nobel',
+    title: 'Buscador datos Heroes',
     search: 'Buscar',
     categories: 'Categorías',
     nobelPrizeYear: 'Año desde',
@@ -63,7 +63,7 @@ export class SearchComponent implements OnInit {
   });
 
   constructor(
-    public nobelService: NobelService,
+    public nobelService: HeroesService,
     private formBuilder: FormBuilder,
     private validatorService: ValidatorsService
   ) {
