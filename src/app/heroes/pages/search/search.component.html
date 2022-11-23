@@ -40,9 +40,7 @@
 </mat-card>
 <!-- End Search form-->
 <!-- Start Heroes results table -->
-<div
-  *ngIf="heroes && heroes.length > 0"
-  class="table-results margin-1em">
+<div class="table-results margin-1em">
   <table mat-table [dataSource]="heroes" class="mat-elevation-z8 width-100">
     <!-- name -->
     <ng-container matColumnDef="{{this.labels.table.name}}">
@@ -79,7 +77,14 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
   </table>
+  <mat-paginator
+    [showFirstLastButtons]="true"
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 20]">
+  </mat-paginator>
+
   <!-- Start button Add Hero -->
   <div class="margin-1em">
     <button

@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SearchLabels, Heroe} from '../../models/heroes.model';
 import {HeroesService} from '../../services/heroes.service';
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-search',
@@ -9,9 +11,7 @@ import {HeroesService} from '../../services/heroes.service';
   styleUrls: ['./search.component.scss']
 })
 
-export class SearchComponent implements OnInit {
-
-  public heroes: Heroe[] = [];
+export class SearchComponent implements OnInit, AfterViewInit {
 
   public labels: SearchLabels = {
     title: 'Buscador datos Heroes',
@@ -33,12 +33,14 @@ export class SearchComponent implements OnInit {
     }
   };
 
-
+  public heroes: MatTableDataSource<Heroe> = new MatTableDataSource<Heroe>([]);
   public displayedColumns: string[] = [
     this.labels.table.name,
     this.labels.table.publisher,
     this.labels.table.actions
   ];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public searchForm: FormGroup = this.fb.group({
     filter: [
@@ -57,6 +59,10 @@ export class SearchComponent implements OnInit {
     this.search();
   }
 
+  ngAfterViewInit() {
+    this.heroes.paginator = this.paginator;
+  }
+
   public deleteHeroe(id: string): void {
     this.heroesService.deleteHeroe(id).subscribe(() => {
       this.search();
@@ -67,7 +73,7 @@ export class SearchComponent implements OnInit {
     if (this.searchForm.valid) {
       this.heroesService.getHeroes(this.searchForm.value.filter).subscribe(
         (heroes: Heroe[]) => {
-          this.heroes = heroes;
+          this.heroes.data = heroes;
         }
       );
     }
