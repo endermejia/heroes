@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {GalardonComponent} from './pages/galardon/galardon.component';
+import {HeroDetailComponent} from './pages/detail/hero-detail.component';
 import {HomeComponent} from "./pages/home/home.component";
 import {SearchComponent} from './pages/search/search.component';
 
@@ -14,8 +14,12 @@ const routes: Routes = [
         component: SearchComponent
       },
       {
-        path: 'galardon/:awardYear',
-        component: GalardonComponent
+        path: 'heroe/:id',
+        component: HeroDetailComponent
+      },
+      {
+        path: 'nuevo-heroe',
+        component: HeroDetailComponent
       },
       {
         path: '**',

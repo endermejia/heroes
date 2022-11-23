@@ -5,24 +5,26 @@ import {MaterialModule} from '../material/material.module';
 import {HeroesRoutingModule} from './heroes-routing.module';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
-import {GalardonComponent} from './pages/galardon/galardon.component';
+import {HeroDetailComponent} from './pages/detail/hero-detail.component';
 import {HomeComponent} from './pages/home/home.component';
 import {SearchComponent} from './pages/search/search.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
   declarations: [
     HomeComponent,
-    GalardonComponent,
+    HeroDetailComponent,
     SearchComponent
   ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    HeroesRoutingModule,
-    ReactiveFormsModule,
-    FormsModule
-  ]
+    imports: [
+        CommonModule,
+        MaterialModule,
+        HeroesRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatTooltipModule
+    ]
 })
 export class HeroesModule {
 }

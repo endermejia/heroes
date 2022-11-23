@@ -1,55 +1,72 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {NobelPrizeModel, NobelPrizesDataModel} from '../models/heroes.model';
+import {Heroe} from '../models/heroes.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HeroesService {
 
-  public nobelPrizesData: NobelPrizesDataModel | null = null;
-  public nobelPrize: NobelPrizeModel[] = [];
+  public heroesData: Heroe[] = [];
   public showSpinner: boolean = false;
 
   constructor(private http: HttpClient) {
+    this.getMockHeroes().subscribe((data: any) => {
+      this.heroesData = data.data;
+    });
   }
 
-  public getLaureatesNames(nobelPrize: NobelPrizeModel): string {
-    return nobelPrize?.laureates?.length > 0
-      ? nobelPrize.laureates.map(laureate => laureate.knownName?.en || laureate.orgName?.en).join(', ')
-      : nobelPrize.topMotivation?.en.split('.')[0] || '-';
+  public getMockHeroes(): Observable<Object> {
+    return this.http.get(`assets/heroes-data.json`);
   }
 
-  public searchNobelPrizesByCategoryAndYears(category: string, year: string, yearTo: string): void {
-    this.getNobelPrizesByCategoryAndYears(category, year, yearTo)
-      .subscribe(
-        (data: Object) => {
-          this.nobelPrizesData = data as NobelPrizesDataModel;
-          // TODO: Delete. Timeout for show spinner.
-          setTimeout(() => {
-            this.showSpinner = false;
-          }, 1000);
-        }
-      );
+  public getHeroes(filter: string): Observable<Heroe[]> {
+    this.showSpinner = true;
+    return new Observable<Heroe[]>((observer) => {
+      setTimeout(() => {
+        observer.next(
+          filter?.length > 0
+            ? this.heroesData.filter((item: Heroe) => // No sólo filtra por nombre ;)
+              Object.values(item).some((value: string) => value.toLowerCase().includes(filter.toLowerCase()))
+            )
+            : this.heroesData
+        );
+        this.showSpinner = false;
+      }, 1000);
+    });
   }
 
-  public searchNobelPrizeByCategoryAndYear(category: string, year: string): void {
-    this.getNobelPrizeByCategoryAndYear(category, year)
-      .subscribe(
-        (data: Object) => {
-          this.nobelPrize = data as NobelPrizeModel[];
-          this.showSpinner = false;
-        }
-      );
+  public getHeroe(id: string): Observable<Heroe> {
+    this.showSpinner = true;
+    return new Observable<Heroe>((observer) => {
+      setTimeout(() => {
+        observer.next(this.heroesData.find((item: Heroe) => item.id === id));
+        this.showSpinner = false;
+      }, 1000);
+    });
   }
 
-  private getNobelPrizesByCategoryAndYears(category: string, year: string, yearTo: string): Observable<Object> {
-    return this.http.get(`https://api.nobelprize.org/2.1/nobelPrizes?nobelPrizeCategory=${category}&nobelPrizeYear=${year}&yearTo=${yearTo}`);
+  public deleteHeroe(id: string): Observable<Heroe> {
+    this.showSpinner = true;
+    return new Observable<Heroe>((observer) => {
+      setTimeout(() => {
+        this.heroesData = this.heroesData.filter((item: Heroe) => item.id !== id);
+        observer.next();
+        this.showSpinner = false;
+      }, 1000);
+    });
   }
 
-  private getNobelPrizeByCategoryAndYear(category: string, year: string): Observable<Object> {
-    return this.http.get(`https://api.nobelprize.org/2.1/nobelPrize/${category}/${year}`);
+  public updateHeroe(heroe: Heroe): Observable<Heroe> {
+    this.showSpinner = true;
+    return new Observable<Heroe>((observer) => {
+      setTimeout(() => {
+        this.heroesData = this.heroesData.map((item: Heroe) => item.id === heroe.id ? heroe : item);
+        observer.next();
+        this.showSpinner = false;
+      }, 1000);
+    });
   }
 
 }

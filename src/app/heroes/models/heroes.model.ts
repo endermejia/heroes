@@ -1,93 +1,32 @@
-export interface CategoryModel {
-  id: string;
-  value: string;
-}
-
-export interface SearchLabelsModel {
+export interface SearchLabels {
   title: string;
+  add: string;
+  edit: string;
+  delete: string;
+  hero: string;
   search: string;
-  categories: string;
-  nobelPrizeYear: string;
-  yearTo: string;
-  table: TableModel;
-  validation: ValidationModel;
+  filter: string;
+  table: TableLabels;
+  validation: ValidationLabels;
 }
 
-export interface GalardonLabelsModel {
+export interface TableLabels {
   name: string;
-  contribution: string;
-  motive: string;
-  return: string;
-}
-
-export interface TableModel {
-  dateAwarded: string;
-  laureates: string;
+  publisher: string;
   actions: string;
 }
 
-export interface ValidationModel {
+export interface ValidationLabels {
   required: string;
-  maxRangeOfYears: string;
-  yearToSuperiorThanYearFrom: string;
-}
-export interface NobelPrizesDataModel {
-  nobelPrizes: NobelPrizeModel[];
-  meta: MetaModel;
+  maxLength: string;
+  minLength: string;
 }
 
-export interface NobelPrizeModel {
-  awardYear: string;
-  category: CategoryDataModel;
-  categoryFullName: CategoryDataModel;
-  dateAwarded: string;
-  prizeAmount: number;
-  prizeAmountAdjusted: number;
-  links: LinkModel[];
-  laureates: LaureateModel[];
-  topMotivation?: NameModel;
-}
-
-export interface CategoryDataModel {
-  en: string;
-  no: string;
-  se: string;
-}
-
-export interface LinkModel {
-  rel: string;
-  href: string;
-  action: string;
-  types: string;
-}
-
-export interface LaureateModel {
+export interface Heroe {
   id: string;
-  knownName?: NameModel;
-  fullName?: NameModel;
-  orgName?: NameModel;
-  portion: string;
-  sortOrder: string;
-  motivation: MotivationModel;
-  links: LinkModel[];
-}
-
-export interface NameModel {
-  en: string;
-}
-
-export interface MotivationModel {
-  en: string;
-  se: string;
-}
-
-export interface MetaModel {
-  count: number;
-  disclaimer: string;
-  license: string;
-  limit: number;
-  nobelPrizeCategory: string;
-  nobelPrizeYear: number;
-  offset: number;
-  terms: string;
+  name: string;
+  publisher: string;
+  alter_ego: string;
+  first_appearance: string;
+  characters: string;
 }

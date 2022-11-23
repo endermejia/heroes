@@ -8,52 +8,28 @@
     </mat-card-title>
   </mat-card-header>
   <form
-    [formGroup]="formGroup"
+    [formGroup]="searchForm"
     (ngSubmit)="search()">
     <div class="custom-container">
       <div>
         <mat-form-field class="margin-1em">
-          <mat-label>{{labels.categories}}</mat-label>
-          <mat-select
-            [formControlName]="'category'">
-            <mat-option
-              *ngFor="let category of categories"
-              [value]="category.id">
-              {{category.value}}
-            </mat-option>
-          </mat-select>
-          <mat-error>{{labels.validation.required}}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="margin-1em">
-          <mat-label>{{labels.nobelPrizeYear}}</mat-label>
-          <input matInput [matDatepicker]="dp1" [formControlName]="'nobelPrizeYear'">
-          <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-          <mat-datepicker #dp1
-                          (yearSelected)="setYear($event, dp1, 'nobelPrizeYear')"
-                          startView="multi-year">
-          </mat-datepicker>
-          <mat-error>{{labels.validation.required}}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="margin-1em">
-          <mat-label>{{labels.yearTo}}</mat-label>
-          <input matInput [matDatepicker]="dp2" [formControlName]="'yearTo'">
-          <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-          <mat-datepicker #dp2
-                          (yearSelected)="setYear($event, dp2, 'yearTo')"
-                          startView="multi-year">
-          </mat-datepicker>
-          <mat-error>{{labels.validation.required}}</mat-error>
+          <mat-label>{{labels.filter}}</mat-label>
+          <input
+            matInput
+            formControlName="filter">
+          <mat-error *ngIf="searchForm.get('filter')?.hasError('required')">
+            {{labels.validation.required}}
+          </mat-error>
+          <mat-error *ngIf="searchForm.get('filter')?.hasError('minlength')">
+            {{labels.validation.minLength}}
+          </mat-error>
+          <mat-error *ngIf="searchForm.get('filter')?.hasError('maxlength')">
+            {{labels.validation.maxLength}}
+          </mat-error>
         </mat-form-field>
       </div>
-      <mat-error *ngIf="yearToSuperiorThanYearFrom"
-                 class="margin-1em">
-        {{yearToSuperiorThanYearFromError}}
-      </mat-error>
-      <mat-error *ngIf="maxRangeOfYears"
-                 class="margin-1em">
-        {{labels.validation.maxRangeOfYears}}
-      </mat-error>
       <button
+        [disabled]="searchForm.invalid"
         mat-raised-button
         type="submit"
         color="primary">
@@ -63,27 +39,27 @@
   </form>
 </mat-card>
 <!-- End Search form-->
-<!-- Start nobelPrizes results table -->
+<!-- Start Heroes results table -->
 <div
-  *ngIf="nobelService.nobelPrizesData && nobelService.nobelPrizesData.nobelPrizes && nobelService.nobelPrizesData.nobelPrizes.length > 0"
-  class="margin-1em">
-  <table mat-table [dataSource]="nobelService.nobelPrizesData.nobelPrizes" class="mat-elevation-z8 width-100">
-    <!-- dateAwardedColumn -->
-    <ng-container matColumnDef="{{this.labels.table.dateAwarded}}">
+  *ngIf="heroes && heroes.length > 0"
+  class="table-results margin-1em">
+  <table mat-table [dataSource]="heroes" class="mat-elevation-z8 width-100">
+    <!-- name -->
+    <ng-container matColumnDef="{{this.labels.table.name}}">
       <th mat-header-cell *matHeaderCellDef>
-        {{labels.table.dateAwarded}}
+        {{labels.table.name}}
       </th>
-      <td mat-cell *matCellDef="let nobelPrizeElement">
-        {{nobelPrizeElement['awardYear']}}
+      <td mat-cell *matCellDef="let heroElement">
+        {{heroElement.name}}
       </td>
     </ng-container>
-    <!-- laureates -->
-    <ng-container matColumnDef="{{this.labels.table.laureates}}">
+    <!-- publisher -->
+    <ng-container matColumnDef="{{this.labels.table.publisher}}">
       <th mat-header-cell *matHeaderCellDef>
-        {{labels.table.laureates}}
+        {{labels.table.publisher}}
       </th>
-      <td mat-cell *matCellDef="let nobelPrizeElement">
-        {{nobelService.getLaureatesNames(nobelPrizeElement)}}
+      <td mat-cell *matCellDef="let heroElement">
+        {{heroElement.publisher}}
       </td>
     </ng-container>
     <!-- actions -->
@@ -91,19 +67,33 @@
       <th mat-header-cell *matHeaderCellDef>
         {{labels.table.actions}}
       </th>
-      <td
-        mat-cell *matCellDef="let nobelPrizeElement"
-        [routerLink]="getCategoryAndYear(nobelPrizeElement)">
-        <mat-icon color="primary">visibility</mat-icon>
+      <td mat-cell *matCellDef="let heroElement">
+        <mat-icon color="primary" [matTooltip]="labels.edit" [routerLink]="'heroe/' + heroElement.id">
+          edit
+        </mat-icon>
+        <mat-icon color="warn" [matTooltip]="labels.delete" (click)="deleteHeroe(heroElement.id)">
+          delete
+        </mat-icon>
       </td>
     </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  <!-- Start button Add Hero -->
+  <div class="margin-1em">
+    <button
+      mat-raised-button
+      color="primary"
+      [routerLink]="['nuevo-heroe']">
+      {{labels.add}} {{labels.hero}}
+    </button>
+  </div>
+  <!-- End button Add Hero -->
 </div>
-<!-- End nobelPrizes results table -->
+<!-- End Heroes results table -->
 <!-- Start Spinner -->
-<ng-container *ngIf="nobelService.showSpinner">
+<ng-container *ngIf="heroesService.showSpinner">
   <div class="spinnerContainer">
     <mat-spinner class="custom-mat-spinner"></mat-spinner>
   </div>
