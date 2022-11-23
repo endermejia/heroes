@@ -10,6 +10,18 @@ export interface SearchLabels {
   validation: ValidationLabels;
 }
 
+export interface HeroDetailLabels {
+  title: string;
+  save: string;
+  hero: string;
+  name: string;
+  publisher: string;
+  alter_ego: string;
+  first_appearance: string;
+  cancel: string;
+  validation: ValidationLabels;
+}
+
 export interface TableLabels {
   name: string;
   publisher: string;
@@ -28,5 +40,4 @@ export interface Heroe {
   publisher: string;
   alter_ego: string;
   first_appearance: string;
-  characters: string;
 }

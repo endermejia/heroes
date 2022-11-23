@@ -14,11 +14,11 @@ import {MatPaginator} from "@angular/material/paginator";
 export class SearchComponent implements OnInit, AfterViewInit {
 
   public labels: SearchLabels = {
-    title: 'Buscador datos Heroes',
+    title: 'Buscador datos Héroes',
     add: 'Añadir',
     edit: 'Editar',
     delete: 'Eliminar',
-    hero: 'Heroe',
+    hero: 'Héroe',
     search: 'Buscar',
     filter: 'Filtro',
     table: {

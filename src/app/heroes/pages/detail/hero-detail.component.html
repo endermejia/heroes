@@ -1,62 +1,108 @@
-<!--<div id="detail-container">-->
-<!--  HOLAAAA-->
-<!--  <ng-container *ngIf="nobelService.heroes && nobelService.heroes.length">-->
-<!--    <ng-container *ngIf="nobelService.heroes[0].laureates">-->
-<!--      <div class="margin-1em">-->
-<!--        <mat-grid-list-->
-<!--          cols="2"-->
-<!--          rowHeight="2:1">-->
-<!--          <ng-container *ngFor="let laureate of nobelService.heroes[0].laureates">-->
-<!--            <div>-->
-<!--              <mat-grid-tile>-->
-<!--                <div class="padding-1em">-->
-<!--                  <mat-card class="mat-elevation-z8">-->
-<!--                    <mat-card-content>-->
-<!--                      <div class="custom-flex-container">-->
-<!--                        <label class="custom-title margin-1em">-->
-<!--                          <b>{{labels.name}}:</b>-->
-<!--                        </label>-->
-<!--                        <label class="margin-1em">-->
-<!--                          {{getLaureateNames(laureate)}}-->
-<!--                        </label>-->
-<!--                      </div>-->
-<!--                      <div class="custom-flex-container">-->
-<!--                        <label class="custom-title margin-1em">-->
-<!--                          <b>{{labels.contribution}}:</b>-->
-<!--                        </label>-->
-<!--                        <label class="margin-1em">-->
-<!--                          {{getLaureateContribution(laureate)}}-->
-<!--                        </label>-->
-<!--                      </div>-->
-<!--                      <div class="custom-flex-container">-->
-<!--                        <label class="custom-title margin-1em">-->
-<!--                          <b>{{labels.motive}}:</b>-->
-<!--                        </label>-->
-<!--                        <label class="margin-1em">-->
-<!--                          {{getLaureateMotive(laureate) | uppercase}}-->
-<!--                        </label>-->
-<!--                      </div>-->
-<!--                    </mat-card-content>-->
-<!--                  </mat-card>-->
-<!--                </div>-->
-<!--              </mat-grid-tile>-->
-<!--            </div>-->
-<!--          </ng-container>-->
-<!--        </mat-grid-list>-->
-<!--      </div>-->
-<!--    </ng-container>-->
-<!--  </ng-container>-->
-<!--  <button-->
-<!--    routerLink=""-->
-<!--    mat-raised-button-->
-<!--    type="submit">-->
-<!--    {{labels.return}}-->
-<!--  </button>-->
-<!--</div>-->
-<!--&lt;!&ndash; Start Spinner &ndash;&gt;-->
-<!--<ng-container *ngIf="nobelService.showSpinner">-->
-<!--  <div class="spinnerContainer">-->
-<!--    <mat-spinner class="custom-mat-spinner"></mat-spinner>-->
-<!--  </div>-->
-<!--</ng-container>-->
-<!--&lt;!&ndash; End Spinner &ndash;&gt;-->
+<!-- Start HeroDetail form -->
+<mat-card
+  id="mat-card-hero-detail"
+  class="mat-elevation-z8 margin-1em max-width-80-em">
+  <mat-card-header>
+    <mat-card-title class="custom-title">
+      {{labels.title}}
+    </mat-card-title>
+  </mat-card-header>
+  <form
+    [formGroup]="heroeForm"
+    (ngSubmit)="saveHero()">
+    <div class="custom-container">
+      <mat-form-field class="margin-1em min-width-50">
+        <mat-label>{{labels.name}}</mat-label>
+        <input
+          matInput
+          required
+          formControlName="name">
+        <mat-error *ngIf="heroeForm.get('name')?.hasError('required')">
+          {{labels.validation.required}}
+        </mat-error>
+        <mat-error *ngIf="heroeForm.get('name')?.hasError('minlength')">
+          {{labels.validation.minLength}}
+        </mat-error>
+        <mat-error *ngIf="heroeForm.get('name')?.hasError('maxlength')">
+          {{labels.validation.maxLength}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="margin-1em min-width-50">
+        <mat-label>{{labels.publisher}}</mat-label>
+        <input
+          matInput
+          required
+          formControlName="publisher">
+        <mat-error *ngIf="heroeForm.get('publisher')?.hasError('required')">
+          {{labels.validation.required}}
+        </mat-error>
+        <mat-error *ngIf="heroeForm.get('publisher')?.hasError('minlength')">
+          {{labels.validation.minLength}}
+        </mat-error>
+        <mat-error *ngIf="heroeForm.get('publisher')?.hasError('maxlength')">
+          {{labels.validation.maxLength}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="margin-1em min-width-50">
+        <mat-label>{{labels.alter_ego}}</mat-label>
+        <input
+          matInput
+          required
+          formControlName="alter_ego">
+        <mat-error *ngIf="heroeForm.get('alter_ego')?.hasError('required')">
+          {{labels.validation.required}}
+        </mat-error>
+        <mat-error *ngIf="heroeForm.get('alter_ego')?.hasError('minlength')">
+          {{labels.validation.minLength}}
+        </mat-error>
+        <mat-error *ngIf="heroeForm.get('alter_ego')?.hasError('maxlength')">
+          {{labels.validation.maxLength}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="margin-1em min-width-50">
+        <mat-label>{{labels.first_appearance}}</mat-label>
+        <input
+          matInput
+          required
+          formControlName="first_appearance">
+        <mat-error *ngIf="heroeForm.get('first_appearance')?.hasError('required')">
+          {{labels.validation.required}}
+        </mat-error>
+        <mat-error *ngIf="heroeForm.get('first_appearance')?.hasError('minlength')">
+          {{labels.validation.minLength}}
+        </mat-error>
+        <mat-error *ngIf="heroeForm.get('first_appearance')?.hasError('maxlength')">
+          {{labels.validation.maxLength}}
+        </mat-error>
+      </mat-form-field>
+      <div class="custom-flex-container">
+        <div class="margin-1em">
+          <button
+            [disabled]="heroeForm.invalid || heroeForm.pristine"
+            mat-raised-button
+            type="submit"
+            color="primary">
+            {{labels.save}} {{labels.hero}}
+          </button>
+        </div>
+        <div class="margin-1em">
+          <button
+            mat-raised-button
+            type="button"
+            color="warn"
+            (click)="goBack()">
+            {{labels.cancel}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>
+<!-- End HeroDetail form-->
+<!-- Start Spinner -->
+<ng-container *ngIf="heroesService.showSpinner">
+  <div class="spinnerContainer">
+    <mat-spinner class="custom-mat-spinner"></mat-spinner>
+  </div>
+</ng-container>
+<!-- End Spinner -->

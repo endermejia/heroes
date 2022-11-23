@@ -69,4 +69,16 @@ export class HeroesService {
     });
   }
 
+  public addHeroe(heroe: Heroe): Observable<Heroe> {
+    this.showSpinner = true;
+    return new Observable<Heroe>((observer) => {
+      setTimeout(() => {
+        heroe.id = this.heroesData.length.toString();
+        this.heroesData.push(heroe);
+        observer.next();
+        this.showSpinner = false;
+      }, 1000);
+    });
+  }
+
 }

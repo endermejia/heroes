@@ -37,6 +37,10 @@ body {
   width: 100%;
 }
 
+.min-width-50 {
+  min-width: 50%;
+}
+
 .mat-column-Acciones {
   text-align: center !important;
 }
@@ -66,7 +70,7 @@ body {
   text-align: -webkit-center;
 }
 
-.table-results {
+.max-width-80-em {
   max-width: 80em;
 }
 
