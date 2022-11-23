@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {HeroesService} from '../../services/heroes.service';
 import {ActivatedRoute} from '@angular/router';
-import {HeroDetailLabels} from "../../models/heroes.model";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {HeroDetailLabels} from '../../models/heroes.model';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Location} from '@angular/common';
 
 @Component({
