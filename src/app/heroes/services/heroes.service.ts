@@ -73,7 +73,11 @@ export class HeroesService {
     this.showSpinner = true;
     return new Observable<Heroe>((observer) => {
       setTimeout(() => {
-        heroe.id = this.heroesData.length.toString();
+        let id = this.heroesData.length + 1;
+        while (this.heroesData.find((item: Heroe) => item.id === id.toString())) {
+          id++;
+        }
+        heroe.id = id.toString();
         this.heroesData.push(heroe);
         observer.next();
         this.showSpinner = false;

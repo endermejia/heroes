@@ -63,7 +63,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.heroes.paginator = this.paginator;
   }
 
-  public deleteHeroe(id: string): void {
+  public deleteHero(id: string): void {
     this.heroesService.deleteHeroe(id).subscribe(() => {
       this.search();
     });
